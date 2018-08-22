@@ -1,6 +1,7 @@
 from django.http import HttpResponse, Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from datetime import datetime
+from blog.models import Article
 
 def home(request):
     """ Exemple de page non valide au niveau HTML pour que l'exemple soit concis """
@@ -73,3 +74,13 @@ def afficher_article(request, nombre1):
     nombre2 = nombre1
     total = 2 * nombre1
     return render(request, 'blog/addition.html', locals())
+
+def accueil(request):
+    """ Afficher tous les articles de notre blog """
+    articles = Article.objects.all() # Nous sélectionnons tous nos articles
+    return render(request, 'blog/accueil.html', {'derniers_articles': articles})
+
+def lire(request, id):
+    """ Afficher un article complet """
+    article = get_object_or_404(Article, id=id)
+    return render(request, 'blog/lire.html', {'article':article})

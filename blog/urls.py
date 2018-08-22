@@ -24,8 +24,10 @@ from . import views
 # ]
 
 urlpatterns = [
-    path('', views.home),
-    path('accueil', views.home),
+#    path('', views.home),
+#    path('accueil', views.home),
+    path('', views.accueil, name='accueil'),
+    path('article/<int:id>', views.lire, name='lire'),
     path('date', views.date_actuelle),
     path('mapage', views.ma_page),
     path('addition/<int:nombre1>/<int:nombre2>/', views.addition),
