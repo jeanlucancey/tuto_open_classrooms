@@ -6,12 +6,6 @@
     	<p>{{ article.contenu|truncatewords_html:80 }}</p>
         <p><a href="{% url 'lire' article.id %}">Lire la suite avec le numéro</a></p>
         <p><a href="{% url 'lire2' id=article.id slug=article.slug %}">Lire la suite avec le slug</a>
-
-	{% comment %}
-	<!--
-        <p><a href="{% url 'lire2' id=article.id slug=article.slug %}">Lire la suite avec le slug</a>
-        -->
-	{% endcomment %}
     </div>
 {% empty %}
     <p>Aucun article.</p>

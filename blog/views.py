@@ -10,15 +10,10 @@ def home(request):
         <p>Les crêpes bretonnes ça tue des mouettes en plein vol !</p>
     """)
 
-# def view_article(request, id_article):
-#     """ 
-#     Vue qui affiche un article selon son identifiant (ou ID, ici un numéro)
-#     Son ID est le second paramètre de la fonction (pour rappel, le premier
-#     paramètre est TOUJOURS la requête de l'utilisateur)
-#     """
-#     return HttpResponse(
-#         "Vous avez demandé l'article n° {0} !".format(id_article)    
-#     )
+def accueil(request):
+    """ Afficher tous les articles de notre blog """
+    articles = Article.objects.all() # Nous sélectionnons tous nos articles
+    return render(request, 'blog/accueil.html', {'derniers_articles': articles})
 
 def view_article(request, id_article):
     # Si l'ID est supérieur à 100, nous considérons que l'article n'existe pas
@@ -26,9 +21,6 @@ def view_article(request, id_article):
         raise Http404
 
     return HttpResponse('<h1>Mon article [%d] ici</h1>' % (int(id_article)))
-#    return redirect(view_redirection)
-#    return redirect(view_article, id_article=42)
-#    return redirect('afficher_article', id_article=42)
 
 def view_redirection(request):
     return HttpResponse("Vous avez été redirigé.")
@@ -39,23 +31,11 @@ def list_articles(request, month, year):
         "Vous avez demandé les articles de {0} {1}.".format(month, year)  
     )
 
-# def list_articles(request, year, month=1):
-#     return HttpResponse('Articles de %s/%s' % (year, month))
-
 def list_articles_by_tag(request, tag):
     """ Liste des articles d'un mois précis. """
     return HttpResponse(
         "Vous avez demandé le tag {}.".format(tag)  
     )
-
-def date_actuelle(request):
-    return render(request, 'blog/date.html', {'date': datetime.now()})
-
-def addition(request, nombre1, nombre2):    
-    total = nombre1 + nombre2
-
-    # Retourne nombre1, nombre2 et la somme des deux au tpl
-    return render(request, 'blog/addition.html', locals())
 
 def ma_page(request):
     max_multiplicande = 5
@@ -75,12 +55,9 @@ def afficher_article(request, nombre1):
     total = 2 * nombre1
     return render(request, 'blog/addition.html', locals())
 
-def accueil(request):
-    """ Afficher tous les articles de notre blog """
-    articles = Article.objects.all() # Nous sélectionnons tous nos articles
-    return render(request, 'blog/accueil.html', {'derniers_articles': articles})
-
 def lire(request, id):
+    # Appel de la page de blog juste par son id
+    
     # Methode bavarde
 #    try:
 #        article = Article.objects.get(id=id)
@@ -91,6 +68,22 @@ def lire(request, id):
     article = get_object_or_404(Article, id=id)
     
     return render(request, 'blog/lire.html', {'article':article})
+
+def lire2(request, id, slug):
+    # Appel de la page de blog avec son id et son slug
+    
+    article = get_object_or_404(Article, id=id, slug=slug)
+    
+    return render(request, 'blog/lire2.html', {'article':article})
+
+def date_actuelle(request):
+    return render(request, 'blog/date.html', {'date': datetime.now()})
+
+def addition(request, nombre1, nombre2):    
+    total = nombre1 + nombre2
+
+    # Retourne nombre1, nombre2 et la somme des deux au tpl
+    return render(request, 'blog/addition.html', locals())
 
 def cree_proust(request):
     # Croyez-le si vous voulez, mais ça marche: je peux faire
@@ -107,12 +100,3 @@ def cree_proust(request):
     return HttpResponse(
         "En principe, l'article de %s a été créé." % (art.auteur)
     )
-
-#def lire2(request, id, slug):
-#    article = get_object_or_404(Article, id=id, slug=slug)
-#    return render(request, 'blog/lire2.html', {'article':article})
-
-def lire2(request, id, slug):
-    article = get_object_or_404(Article, id=id, slug=slug)
-    
-    return render(request, 'blog/lire2.html', {'article':article})
