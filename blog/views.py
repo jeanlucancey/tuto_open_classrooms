@@ -91,3 +91,15 @@ def lire(request, id):
     article = get_object_or_404(Article, id=id)
     
     return render(request, 'blog/lire.html', {'article':article})
+
+def cree_proust(request):
+    art=Article()
+    art.auteur="Fédor Dostoïevski"
+    art.titre="Crime et Châtiment"
+    art.slug="crime-et-chatiment"
+    art.contenu="Raskolnikov retourna chez la vieille usurière"
+    art.save()
+
+    return HttpResponse(
+        "En principe, l'article de Dostoïevski a été créé."
+    )
