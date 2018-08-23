@@ -27,7 +27,11 @@ urlpatterns = [
 #    path('', views.home),
 #    path('accueil', views.home),
     path('', views.accueil, name='accueil'),
+    
     path('article/<int:id>', views.lire, name='lire'),
+#    re_path('article/<int:id>-<slug:slug>$', views.lire2, name='lire2'),
+    path('article2/<int:id>-<slug:slug>', views.lire2, name='lire2'),
+    
     path('date', views.date_actuelle),
     path('mapage', views.ma_page),
     path('addition/<int:nombre1>/<int:nombre2>/', views.addition),

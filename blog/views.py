@@ -93,13 +93,26 @@ def lire(request, id):
     return render(request, 'blog/lire.html', {'article':article})
 
 def cree_proust(request):
-    art=Article()
-    art.auteur="Fédor Dostoïevski"
-    art.titre="Crime et Châtiment"
-    art.slug="crime-et-chatiment"
-    art.contenu="Raskolnikov retourna chez la vieille usurière"
+    # Croyez-le si vous voulez, mais ça marche: je peux faire
+    # bouffer des choses à la base de données Sqlite depuis un script
+    # en Python; mais *à l'intérieur* de Django.
+    
+    art = Article()
+    art.auteur  = "Georges Simenon"
+    art.titre   = "Maigret tend un piège"
+    art.slug    = "maigret-tend-un-piege"
+    art.contenu = "Un sadique tue des femmes la nuit dans le quartier des Halles"
     art.save()
 
     return HttpResponse(
-        "En principe, l'article de Dostoïevski a été créé."
+        "En principe, l'article de %s a été créé." % (art.auteur)
     )
+
+#def lire2(request, id, slug):
+#    article = get_object_or_404(Article, id=id, slug=slug)
+#    return render(request, 'blog/lire2.html', {'article':article})
+
+def lire2(request, id, slug):
+    article = get_object_or_404(Article, id=id, slug=slug)
+    
+    return render(request, 'blog/lire2.html', {'article':article})
